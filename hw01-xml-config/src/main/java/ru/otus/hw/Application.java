@@ -2,6 +2,7 @@ package ru.otus.hw;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.otus.hw.dao.CsvQuestionDao;
 import ru.otus.hw.service.TestRunnerService;
 
 public class Application {
@@ -10,6 +11,8 @@ public class Application {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
         var testRunnerService = context.getBean(TestRunnerService.class);
         testRunnerService.run();
+        CsvQuestionDao csvQuestionDao = context.getBean(CsvQuestionDao.class);
+        csvQuestionDao.findAll();
 
     }
 }

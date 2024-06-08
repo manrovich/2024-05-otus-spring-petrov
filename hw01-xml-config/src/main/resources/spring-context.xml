@@ -11,25 +11,39 @@
 
     <context:property-placeholder location="classpath:app.properties"/>
 
+    <bean id="appProperties" class="ru.otus.hw.config.AppProperties">
+        <constructor-arg name="testFileName" value="${test.file.name}"/>
+    </bean>
+
     <bean id="ioService" class="ru.otus.hw.service.StreamsIOService">
         <constructor-arg index="0">
             <util:constant static-field="java.lang.System.out"/>
         </constructor-arg>
+        <constructor-arg index="1">
+            <util:constant static-field="java.lang.System.in"/>
+        </constructor-arg>
     </bean>
+
+    <bean id="testDao" class="ru.otus.hw.dao.TestDaoImpl">
+        <constructor-arg ref="questionDao"/>
+    </bean>
+    <bean id="questionDao" class="ru.otus.hw.dao.CsvQuestionDao">
+        <constructor-arg ref="appProperties"/>
+    </bean>
+
     <bean id="testRunnerService" class="ru.otus.hw.service.TestRunnerServiceImpl">
         <constructor-arg ref="testService"/>
     </bean>
     <bean id="testService" class="ru.otus.hw.service.TestServiceImpl">
         <constructor-arg ref="ioService"/>
+        <constructor-arg ref="testDao"/>
+        <constructor-arg ref="questionService"/>
     </bean>
+    <bean id="questionService" class="ru.otus.hw.service.QuestionServiceImpl">
+        <constructor-arg ref="questionFormatter"/>
+    </bean>
+    <bean id="questionFormatter" class="ru.otus.hw.service.formatter.SimpleQuestionFormatter"/>
 
-    <bean id="appProperties" class="ru.otus.hw.config.AppProperties">
-        <constructor-arg name="testFileName" value="${test.file.name}"/>
-        <constructor-arg name="testFileSkipLines" value="${test.file.skip.lines}"/>
-    </bean>
 
-    <bean id="csvQuestionDao" class="ru.otus.hw.dao.CsvQuestionDao">
-        <constructor-arg ref="appProperties"/>
-        <constructor-arg ref="appProperties"/>
-    </bean>
+
 </beans>

@@ -1,14 +1,18 @@
 package ru.otus.hw.service;
 
-import java.io.PrintStream;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.Scanner;
+
+@RequiredArgsConstructor
 public class StreamsIOService implements IOService {
+
     private final PrintStream printStream;
 
-    public StreamsIOService(PrintStream printStream) {
-
-        this.printStream = printStream;
-    }
+    private final InputStream inputStream;
 
     @Override
     public void printLine(String s) {
@@ -18,5 +22,14 @@ public class StreamsIOService implements IOService {
     @Override
     public void printFormattedLine(String s, Object... args) {
         printStream.printf(s + "%n", args);
+    }
+
+    @Override
+    public String readLine() {
+        Scanner scanner = new Scanner(inputStream);
+        if (scanner.hasNextLine()) {
+            return scanner.nextLine();
+        }
+        return StringUtils.EMPTY;
     }
 }

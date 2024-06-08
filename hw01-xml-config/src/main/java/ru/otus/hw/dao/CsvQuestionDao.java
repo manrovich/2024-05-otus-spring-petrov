@@ -3,7 +3,6 @@ package ru.otus.hw.dao;
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
 import ru.otus.hw.config.TestFileNameProvider;
-import ru.otus.hw.config.TestFileSkipLinesProvider;
 import ru.otus.hw.dao.dto.QuestionDto;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.exceptions.QuestionReadException;
@@ -16,12 +15,11 @@ import static ru.otus.hw.utils.FileResourcesUtils.getFileFromResourceAsStream;
 
 @RequiredArgsConstructor
 public class CsvQuestionDao implements QuestionDao {
+
     private final TestFileNameProvider fileNameProvider;
-    private final TestFileSkipLinesProvider skipLinesProvider;
 
     @Override
     public List<Question> findAll() {
-
         try {
             return findAllQuestionDtos()
                     .stream()
@@ -38,7 +36,8 @@ public class CsvQuestionDao implements QuestionDao {
     private List<QuestionDto> findAllQuestionDtos() {
         return new CsvToBeanBuilder<QuestionDto>(getTestReader())
                 .withType(QuestionDto.class)
-                .withSkipLines(skipLinesProvider.getTestFileSkipLines())
+                .withSeparator(';')
+                .withSkipLines(1)
                 .build()
                 .parse();
     }
