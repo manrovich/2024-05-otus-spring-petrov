@@ -5,6 +5,7 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class AppProperties implements TestFileNameProvider {
+public class AppProperties implements TestFileNameProvider, TestFileSkipLinesProvider{
     private String testFileName;
+    private Integer testFileSkipLines;
 }

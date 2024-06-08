@@ -9,7 +9,7 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder location="classpath:application.properties"/>
+    <context:property-placeholder location="classpath:app.properties"/>
 
     <bean id="ioService" class="ru.otus.hw.service.StreamsIOService">
         <constructor-arg index="0">
@@ -25,5 +25,11 @@
 
     <bean id="appProperties" class="ru.otus.hw.config.AppProperties">
         <constructor-arg name="testFileName" value="${test.file.name}"/>
+        <constructor-arg name="testFileSkipLines" value="${test.file.skip.lines}"/>
+    </bean>
+
+    <bean id="csvQuestionDao" class="ru.otus.hw.dao.CsvQuestionDao">
+        <constructor-arg ref="appProperties"/>
+        <constructor-arg ref="appProperties"/>
     </bean>
 </beans>
