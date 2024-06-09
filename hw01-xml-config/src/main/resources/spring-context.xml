@@ -33,6 +33,7 @@
 
     <bean id="testRunnerService" class="ru.otus.hw.service.TestRunnerServiceImpl">
         <constructor-arg ref="testService"/>
+        <constructor-arg ref="ioService"/>
     </bean>
     <bean id="testService" class="ru.otus.hw.service.TestServiceImpl">
         <constructor-arg ref="ioService"/>
@@ -42,7 +43,10 @@
     <bean id="questionService" class="ru.otus.hw.service.QuestionServiceImpl">
         <constructor-arg ref="questionFormatter"/>
     </bean>
-    <bean id="questionFormatter" class="ru.otus.hw.service.formatter.SimpleQuestionFormatter"/>
+    <bean id="answerFormatter" class="ru.otus.hw.service.formatter.OrderedAnswerFormatter"/>
+    <bean id="questionFormatter" class="ru.otus.hw.service.formatter.SimpleQuestionFormatter">
+        <constructor-arg ref="answerFormatter"/>
+    </bean>
 
 
 
