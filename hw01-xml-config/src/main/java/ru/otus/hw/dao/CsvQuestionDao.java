@@ -11,12 +11,12 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.otus.hw.utils.FileResourcesUtils.getFileFromResourceAsStream;
-
 @RequiredArgsConstructor
 public class CsvQuestionDao implements QuestionDao {
 
     private final TestFileNameProvider fileNameProvider;
+
+    private final DataLoader dataLoader;
 
     @Override
     public List<Question> findAll() {
@@ -43,6 +43,6 @@ public class CsvQuestionDao implements QuestionDao {
     }
 
     private InputStreamReader getTestReader() {
-        return new InputStreamReader(getFileFromResourceAsStream(getClass(), fileNameProvider.getTestFileName()));
+        return new InputStreamReader(dataLoader.load(fileNameProvider.getTestFileName()));
     }
 }

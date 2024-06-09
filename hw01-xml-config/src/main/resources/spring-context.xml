@@ -24,11 +24,13 @@
         </constructor-arg>
     </bean>
 
+    <bean id="dataLoader" class="ru.otus.hw.dao.ResourceDataLoader"/>
     <bean id="testDao" class="ru.otus.hw.dao.TestDaoImpl">
         <constructor-arg ref="questionDao"/>
     </bean>
     <bean id="questionDao" class="ru.otus.hw.dao.CsvQuestionDao">
         <constructor-arg ref="appProperties"/>
+        <constructor-arg ref="dataLoader"/>
     </bean>
 
     <bean id="testRunnerService" class="ru.otus.hw.service.test.TestRunnerServiceImpl">
