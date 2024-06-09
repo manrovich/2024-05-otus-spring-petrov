@@ -11,6 +11,7 @@ import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.exceptions.QuestionReadException;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +39,7 @@ class CsvQuestionDaoTest {
 
     @DisplayName("загрузка из файла")
     @Test
-    void shouldReturnAllQuestionsWithAnswers() {
+    void shouldReturnAllQuestionsWithAnswers() throws FileNotFoundException {
         String testFileName = "questions.csv";
         given(testFileNameProvider.getTestFileName()).willReturn(testFileName);
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(testFileName);
@@ -68,15 +69,16 @@ class CsvQuestionDaoTest {
 
     @DisplayName("ошибка при не существующем файле")
     @Test
-    void shouldThrowQuestionReadExceptionWithCauseIllegalArgumentException() {
+    void shouldThrowQuestionReadExceptionWithCauseIllegalArgumentException() throws FileNotFoundException {
         String testFileName = "not-exist.csv";
         given(testFileNameProvider.getTestFileName()).willReturn(testFileName);
-        given(dataLoader.load(eq(testFileName))).willThrow(new IllegalArgumentException("Resource not found " + testFileName));
+        given(dataLoader.load(eq(testFileName)))
+                .willThrow(new FileNotFoundException("Resource not found " + testFileName));
 
         Throwable thrown = catchThrowable(() -> csvQuestionDao.findAll());
 
         assertThat(thrown).withFailMessage(String.format("File %s not found", testFileName))
                 .isInstanceOf(QuestionReadException.class)
-                .hasCauseInstanceOf(IllegalArgumentException.class);
+                .hasCauseInstanceOf(FileNotFoundException.class);
     }
 }
