@@ -25,10 +25,10 @@ public class StreamsIOService implements IOService {
     }
 
     @Override
-    public String readLine() {
+    public String read() {
         Scanner scanner = new Scanner(inputStream);
-        if (scanner.hasNextLine()) {
-            return scanner.nextLine();
+        if (scanner.hasNext()) {
+            return scanner.next();
         }
         return StringUtils.EMPTY;
     }

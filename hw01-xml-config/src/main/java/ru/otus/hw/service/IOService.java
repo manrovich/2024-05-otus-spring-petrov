@@ -6,5 +6,5 @@ public interface IOService {
 
     void printFormattedLine(String s, Object ...args);
 
-    String readLine();
+    String read();
 }

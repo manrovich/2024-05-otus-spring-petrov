@@ -5,6 +5,7 @@ import com.opencsv.bean.CsvBindByPosition;
 import lombok.Data;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
+import ru.otus.hw.exceptions.QuestionReadException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,17 @@ public class QuestionDto {
     private List<Answer> answers;
 
     public Question toDomainObject() {
-        return new Question(text, answers);
+        Answer correctAnswer = getCorrectAnswer();
+        return new Question(text, answers, correctAnswer);
+    }
+
+    private Answer getCorrectAnswer() {
+        for (Answer answer : answers) {
+            if (answer.isCorrect()) {
+                return answer;
+            }
+        }
+        throw new QuestionReadException(
+                String.format("The question does not have a correct answer. Question text: %s", text));
     }
 }

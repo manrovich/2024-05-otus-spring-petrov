@@ -31,23 +31,34 @@
         <constructor-arg ref="appProperties"/>
     </bean>
 
-    <bean id="testRunnerService" class="ru.otus.hw.service.TestRunnerServiceImpl">
+    <bean id="testRunnerService" class="ru.otus.hw.service.test.TestRunnerServiceImpl">
         <constructor-arg ref="testService"/>
         <constructor-arg ref="ioService"/>
     </bean>
-    <bean id="testService" class="ru.otus.hw.service.TestServiceImpl">
+    <bean id="testService" class="ru.otus.hw.service.test.TestServiceImpl">
         <constructor-arg ref="ioService"/>
         <constructor-arg ref="testDao"/>
         <constructor-arg ref="questionService"/>
+        <constructor-arg ref="answerProcessingService"/>
+        <constructor-arg ref="answerRetrievalService"/>
     </bean>
-    <bean id="questionService" class="ru.otus.hw.service.QuestionServiceImpl">
+    <bean id="questionService" class="ru.otus.hw.service.question.QuestionServiceImpl">
         <constructor-arg ref="questionFormatter"/>
     </bean>
-    <bean id="answerFormatter" class="ru.otus.hw.service.formatter.OrderedAnswerFormatter"/>
-    <bean id="questionFormatter" class="ru.otus.hw.service.formatter.SimpleQuestionFormatter">
+
+    <bean id="answerFormatter" class="ru.otus.hw.formatter.OrderedAnswerFormatter"/>
+    <bean id="questionFormatter" class="ru.otus.hw.formatter.SimpleQuestionFormatter">
         <constructor-arg ref="answerFormatter"/>
     </bean>
 
-
-
+    <bean id="answerProcessingService" class="ru.otus.hw.service.answer.DefaultAnswerProcessingService">
+        <constructor-arg ref="questionService"/>
+        <constructor-arg ref="answerFeedbackService"/>
+    </bean>
+    <bean id="answerFeedbackService" class="ru.otus.hw.service.answer.DefaultAnswerFeedbackService">
+        <constructor-arg ref="ioService"/>
+    </bean>
+    <bean id="answerRetrievalService" class="ru.otus.hw.service.answer.ConsoleAnswerRetrievalService">
+        <constructor-arg ref="ioService"/>
+    </bean>
 </beans>

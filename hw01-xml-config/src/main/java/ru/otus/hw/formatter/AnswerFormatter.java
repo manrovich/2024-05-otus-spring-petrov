@@ -1,4 +1,4 @@
-package ru.otus.hw.service.formatter;
+package ru.otus.hw.formatter;
 
 import ru.otus.hw.domain.Answer;
 
