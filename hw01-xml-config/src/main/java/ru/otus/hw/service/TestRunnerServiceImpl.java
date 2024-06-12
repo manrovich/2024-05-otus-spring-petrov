@@ -1,8 +1,7 @@
-package ru.otus.hw.service.test;
+package ru.otus.hw.service;
 
 import lombok.RequiredArgsConstructor;
 import ru.otus.hw.exceptions.QuestionReadException;
-import ru.otus.hw.service.IOService;
 
 @RequiredArgsConstructor
 public class TestRunnerServiceImpl implements TestRunnerService {

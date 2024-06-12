@@ -19,32 +19,21 @@
         <constructor-arg index="0">
             <util:constant static-field="java.lang.System.out"/>
         </constructor-arg>
-        <constructor-arg index="1">
-            <util:constant static-field="java.lang.System.in"/>
-        </constructor-arg>
     </bean>
 
     <bean id="dataLoader" class="ru.otus.hw.dao.ResourceDataLoader"/>
-    <bean id="testDao" class="ru.otus.hw.dao.TestDaoImpl">
-        <constructor-arg ref="questionDao"/>
-    </bean>
     <bean id="questionDao" class="ru.otus.hw.dao.CsvQuestionDao">
         <constructor-arg ref="appProperties"/>
         <constructor-arg ref="dataLoader"/>
     </bean>
 
-    <bean id="testRunnerService" class="ru.otus.hw.service.test.TestRunnerServiceImpl">
+    <bean id="testRunnerService" class="ru.otus.hw.service.TestRunnerServiceImpl">
+        <constructor-arg ref="ioService"/>
         <constructor-arg ref="testService"/>
-        <constructor-arg ref="ioService"/>
     </bean>
-    <bean id="testService" class="ru.otus.hw.service.test.TestServiceImpl">
+    <bean id="testService" class="ru.otus.hw.service.TestServiceImpl">
         <constructor-arg ref="ioService"/>
-        <constructor-arg ref="testDao"/>
-        <constructor-arg ref="questionService"/>
-        <constructor-arg ref="answerProcessingService"/>
-        <constructor-arg ref="answerRetrievalService"/>
-    </bean>
-    <bean id="questionService" class="ru.otus.hw.service.question.QuestionServiceImpl">
+        <constructor-arg ref="questionDao"/>
         <constructor-arg ref="questionFormatter"/>
     </bean>
 
@@ -53,14 +42,4 @@
         <constructor-arg ref="answerFormatter"/>
     </bean>
 
-    <bean id="answerProcessingService" class="ru.otus.hw.service.answer.DefaultAnswerProcessingService">
-        <constructor-arg ref="questionService"/>
-        <constructor-arg ref="answerFeedbackService"/>
-    </bean>
-    <bean id="answerFeedbackService" class="ru.otus.hw.service.answer.DefaultAnswerFeedbackService">
-        <constructor-arg ref="ioService"/>
-    </bean>
-    <bean id="answerRetrievalService" class="ru.otus.hw.service.answer.ConsoleAnswerRetrievalService">
-        <constructor-arg ref="ioService"/>
-    </bean>
 </beans>

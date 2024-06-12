@@ -2,7 +2,7 @@ package ru.otus.hw;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.otus.hw.service.test.TestRunnerService;
+import ru.otus.hw.service.TestRunnerService;
 
 public class Application {
     public static void main(String[] args) {
