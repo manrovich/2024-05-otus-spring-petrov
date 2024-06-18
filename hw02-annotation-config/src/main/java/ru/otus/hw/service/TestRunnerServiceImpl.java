@@ -24,8 +24,6 @@ public class TestRunnerServiceImpl implements TestRunnerService {
         try {
             testResult = testService.executeTestFor(student);
         } catch (QuestionReadException e) {
-            ioService.printLine(e.toString());
-            ioService.printLine(e.getCause().toString());
             ioService.printLine("Failed to load test");
             return;
         }
