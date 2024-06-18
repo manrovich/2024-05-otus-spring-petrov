@@ -28,9 +28,14 @@ public class TestServiceImpl implements TestService {
         var testResult = new TestResult(student);
 
         for (var question: questions) {
-            int answerIndex = printQuestionAndReadAnswerNumber(question) - 1;
-            var isAnswerValid = isAnswerValid(question, answerIndex);
-            testResult.applyAnswer(question, isAnswerValid);
+            boolean isRightAnswer;
+            try {
+                int answerIndex = printQuestionAndReadAnswerNumber(question) - 1;
+                isRightAnswer = isRightAnswer(question, answerIndex);
+            } catch (IllegalArgumentException e) {
+                isRightAnswer = false;
+            }
+            testResult.applyAnswer(question, isRightAnswer);
         }
         return testResult;
     }
@@ -39,21 +44,14 @@ public class TestServiceImpl implements TestService {
         int answerLastNumber = question.answers().size();
         String errorMessage = String.format("Expected positive number from %d to %d", ANSWER_FIRST_NUMBER, answerLastNumber);
 
-        try {
-            return ioService.readIntForRangeWithPrompt(
-                    ANSWER_FIRST_NUMBER,
-                    answerLastNumber,
-                    formatQuestionWithAnswers(question),
-                    errorMessage);
-        } catch (IllegalArgumentException e) {
-            return -1;
-        }
+        return ioService.readIntForRangeWithPrompt(
+                ANSWER_FIRST_NUMBER,
+                answerLastNumber,
+                formatQuestionWithAnswers(question),
+                errorMessage);
     }
 
-    private boolean isAnswerValid(Question question, int answerIndex) {
-        if (answerIndex < 0) {
-            return false;
-        }
+    private boolean isRightAnswer(Question question, int answerIndex) {
         return question.answers().get(answerIndex).isCorrect();
     }
 

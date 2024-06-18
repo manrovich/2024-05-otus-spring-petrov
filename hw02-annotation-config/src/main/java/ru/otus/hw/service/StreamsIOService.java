@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 @Service
 public class StreamsIOService implements IOService {
-    private static final int MAX_ATTEMPTS = 10;
+    public static final int MAX_ATTEMPTS = 10;
 
     private final PrintStream printStream;
 
@@ -47,12 +47,7 @@ public class StreamsIOService implements IOService {
     public int readIntForRange(int min, int max, String errorMessage) {
         for (int i = 0; i < MAX_ATTEMPTS; i++) {
             try {
-                var stringValue = scanner.nextLine();
-                int intValue = Integer.parseInt(stringValue);
-                if (intValue < min || intValue > max) {
-                    throw new IllegalArgumentException();
-                }
-                return intValue;
+                return readValidInt(min, max);
             } catch (IllegalArgumentException e) {
                 printLine(errorMessage);
             }
@@ -60,9 +55,19 @@ public class StreamsIOService implements IOService {
         throw new IllegalArgumentException("Error during reading int value");
     }
 
+
     @Override
     public int readIntForRangeWithPrompt(int min, int max, String prompt, String errorMessage) {
         printLine(prompt);
         return readIntForRange(min, max, errorMessage);
+    }
+
+    private int readValidInt(int min, int max) {
+        var stringValue = scanner.nextLine();
+        int intValue = Integer.parseInt(stringValue);
+        if (intValue < min || intValue > max) {
+            throw new IllegalArgumentException(String.format("Value %d is out of range [%d, %d]", intValue, min, max));
+        }
+        return intValue;
     }
 }
