@@ -42,7 +42,8 @@ public class TestServiceImpl implements TestService {
 
     private int printQuestionAndReadAnswerNumber(Question question) {
         int answerLastNumber = question.answers().size();
-        String errorMessage = String.format("Expected positive number from %d to %d", ANSWER_FIRST_NUMBER, answerLastNumber);
+        String errorMessage = String.format("Expected positive number from %d to %d",
+                ANSWER_FIRST_NUMBER, answerLastNumber);
 
         return ioService.readIntForRangeWithPrompt(
                 ANSWER_FIRST_NUMBER,

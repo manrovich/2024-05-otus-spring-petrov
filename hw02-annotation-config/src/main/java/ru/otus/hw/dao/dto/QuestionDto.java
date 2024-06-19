@@ -5,7 +5,6 @@ import com.opencsv.bean.CsvBindByPosition;
 import lombok.Data;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
-import ru.otus.hw.exceptions.QuestionReadException;
 
 import java.util.ArrayList;
 import java.util.List;
